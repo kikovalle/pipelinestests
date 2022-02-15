@@ -1,7 +1,4 @@
 pipeline {
-  tools {
-     dockerTool "null"
-  } 
   agent {
     label 'principal'
   }
