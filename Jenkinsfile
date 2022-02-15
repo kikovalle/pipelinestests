@@ -1,7 +1,5 @@
 pipeline {
-  agent {
-    label 'principal'
-  }
+  agent any
   stages {
     stage('Code download') {
       steps {
