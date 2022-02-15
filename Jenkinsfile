@@ -11,6 +11,7 @@ pipeline {
     stage('Compilar') {
       agent {
         docker {
+          image 'maven:latest'
           label 'mavendocker'
         }
       }
