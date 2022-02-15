@@ -12,6 +12,7 @@ pipeline {
       agent {
         docker {
           image 'maven:latest'
+          label 'mavendocker'
         }
       }
       steps {
