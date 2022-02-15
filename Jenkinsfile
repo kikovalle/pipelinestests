@@ -1,6 +1,9 @@
 pipeline {
+  tools {
+     node 'principal'
+  }
   agent {
-    label 'docker'
+    label 'principal'
   }
   stages {
     stage('Code download') {
