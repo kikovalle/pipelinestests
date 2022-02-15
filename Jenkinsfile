@@ -9,8 +9,15 @@ pipeline {
     }
 
     stage('Compilar') {
+      agent {
+        docker {
+          image 'maven:latest'
+          args '-v /root/.m2:/root/.m2
+        }
+      }
       steps {
         echo 'At this point  we should use maven or a tool to compile'
+        sh 'mvn -B -DskipTests clean package'
       }
     }
 
