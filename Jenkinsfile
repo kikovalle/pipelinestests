@@ -10,7 +10,7 @@ pipeline {
 
     stage('Compilar') {
       agent {
-        docker {
+        principal {
           image 'maven:latest'
           args '-v /root/.m2:/root/.m2'
         }
