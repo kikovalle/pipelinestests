@@ -4,7 +4,7 @@ pipeline {
     stage('Code download') {
       steps {
         echo 'Start cloning repository to execute pipeline'
-        git(url: 'https://github.com/kikovalle/pipelinestests', branch: 'master', changelog: true)
+        git(url: 'https://github.com/kikovalle/pipelinestests', branch: 'main', changelog: true)
       }
     }
 
