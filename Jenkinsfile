@@ -1,5 +1,8 @@
 def code
 node("maven") {
+  stage("Checkout code") {
+    checkout scm
+  }
   stage("Preload") {
     sh "ls -lorth"
   }
