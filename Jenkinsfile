@@ -1,12 +1,9 @@
 pipeline {
-  agent any
+  agent none
   stages {
     stage('Compilar') {
       agent {
-        kubernetes {
-          cloud 'kubernetes'
-          label 'maven'
-        }
+        label 'maven'
       }
       steps {
         echo 'At this point  we should use maven or a tool to compile'
