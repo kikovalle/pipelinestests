@@ -1,7 +1,4 @@
 def code
-tools {
-  maven 'maven'
-}
 node("maven") {
   stage("Load") {
     code = load "script-example.groovy"
