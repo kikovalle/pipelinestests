@@ -5,7 +5,7 @@ pipeline {
       agent {
         kubernetes {
           cloud 'kubernetes'
-          label 'kubernetes'
+          label 'maven'
         }
       }
       steps {
