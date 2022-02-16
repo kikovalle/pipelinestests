@@ -1,5 +1,8 @@
 def code
 node("maven") {
+  stage("Preload") {
+    sh "ls -lorth"
+  }
   stage("Load") {
     code = load "script-example.groovy"
   }
