@@ -26,5 +26,6 @@ pipeline {
       steps {
         echo "If we see this message printed is because everything worked, if not there is a mistake..."
       }
+    }
   }
 }
