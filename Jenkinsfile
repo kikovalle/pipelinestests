@@ -25,17 +25,18 @@ node("maven") {
       ])
     ])
   }
-  stage ("Greets and show selectedc hoices") {
-    parallel {
-      stage("Greet user and log choice in job") {
-        echo "User requestion release: ${params.USERNAME}"
-        echo "Selected branch to get source: ${params.SOURCEBRANCH}"
-        if (params.TAGAFTERBUILD) {
-          echo "User wants to generate a tag with release"
-        } else {
-          echo "Tag creation not needed due to user selection"
-        }
+  stage("Greet user and log choice in job") {
+      echo "User requestion release: ${params.USERNAME}"
+      echo "Selected branch to get source: ${params.SOURCEBRANCH}"
+      if (params.TAGAFTERBUILD) {
+        echo "User wants to generate a tag with release"
+      } else {
+        echo "Tag creation not needed due to user selection"
       }
+    }
+  stage ("Greets and checkout code") {
+    parallel {
+      
       stage("Testing shared library") {
         sayHello params.USERNAME
         echo 'The value of foo is : ' + GlobalVars.defaultDeveloper 
@@ -46,11 +47,12 @@ node("maven") {
         }
       }
     }
+    stage("Checkout code") {
+      checkout scm
+    }
   }
   
-  stage("Checkout code") {
-    checkout scm
-  }
+  
   stage("List workspace code and load groovy script in repo") {
     parallel {
       stage("Preload") {
