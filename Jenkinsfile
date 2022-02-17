@@ -20,7 +20,17 @@ node("maven") {
       ])
     ])
   }
-   stage("Checkout code") {
+  stage("Greet user and log choice in job") {
+    echo "User requestion release: ${params.USERNAME}"
+    echo "Selected branch to get source: ${params.SOURCEBRANCH}"
+    if (params.TAGAFTERBUILD) {
+      echo "User wants to generate a tag with release"
+    } else {
+      echo "Tag creation not needed due to user selection"
+    }
+    echo "Selected
+  }
+  stage("Checkout code") {
     checkout scm
   }
   stage("Preload") {
