@@ -81,6 +81,7 @@ node("maven") {
         }
     })
     buildStagesList.add(parallelTest)
+    echo "List of parallel stages ready"
   }
   
   stage("Parallel stage") {
