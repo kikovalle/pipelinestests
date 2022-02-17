@@ -25,23 +25,36 @@ node("maven") {
       ])
     ])
   }
-  stage("Greet user and log choice in job") {
-    echo "User requestion release: ${params.USERNAME}"
-    echo "Selected branch to get source: ${params.SOURCEBRANCH}"
-    if (params.TAGAFTERBUILD) {
-      echo "User wants to generate a tag with release"
-    } else {
-      echo "Tag creation not needed due to user selection"
+  parallel {
+    stage("Greet user and log choice in job") {
+      echo "User requestion release: ${params.USERNAME}"
+      echo "Selected branch to get source: ${params.SOURCEBRANCH}"
+      if (params.TAGAFTERBUILD) {
+        echo "User wants to generate a tag with release"
+      } else {
+        echo "Tag creation not needed due to user selection"
+      }
+    }
+    stage("Testing shared library") {
+      sayHello params.USERNAME
+      echo 'The value of foo is : ' + GlobalVars.defaultDeveloper 
+      if (GlobalVars.defaultDeveloper  == params.USERNAME) {
+        echo "User launching the job is the default developer"
+      } else {
+        echo "User is not default developer"
+      }
     }
   }
   stage("Checkout code") {
     checkout scm
   }
-  stage("Preload") {
-    sh "ls -lorth"
-  }
-  stage("Load") {
-    code = load "script-example.groovy"
+  parallel {
+    stage("Preload") {
+      sh "ls -lorth"
+    }
+    stage("Load") {
+      code = load "script-example.groovy"
+    }
   }
   stage("Exec") {
     code.example1()
@@ -49,15 +62,6 @@ node("maven") {
   stage("Compile") {
     withMaven( maven : 'maven' ) {
       sh 'mvn -B -DskipTests clean package'
-    }
-  }
-  stage("Testing shared library") {
-    sayHello params.USERNAME
-    echo 'The value of foo is : ' + GlobalVars.defaultDeveloper 
-    if (GlobalVars.defaultDeveloper  == params.USERNAME) {
-      echo "User launching the job is the default developer"
-    } else {
-      echo "User is not default developer"
     }
   }
   stage("End") {
