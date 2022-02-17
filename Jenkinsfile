@@ -59,6 +59,29 @@ node("maven") {
       sh 'mvn -B -DskipTests clean package'
     }
   }
+  
+  def parallelTest = [
+    {
+       stage("Test scripted parallel stage 1") {
+        println("Executing ${name} that makes a sleep 10 and reutnrStatus true")
+        sh(script:'sleep 10', returnStatus:true)
+      }
+    },
+    {
+      stage("Test scripted parallel stage 2") {
+        println("Executing ${name} that makes a sleep 15 and reutnrStatus true")
+        sh(script:'sleep 15', returnStatus:true)
+      }
+    }
+  ]
+  
+  stage("Parallel stage") {
+     for (builds in parallelTest) {
+       parallel(builds)
+     }
+  }
+  
+  
   stage("End") {
     echo "Everything seems to work fine!"
   }
