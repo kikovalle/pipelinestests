@@ -26,63 +26,85 @@ node("maven") {
     ])
   }
   
-  stage("Greet user and log choice in job") {
-    echo "User requestion release: ${params.USERNAME}"
-    echo "Selected branch to get source: ${params.SOURCEBRANCH}"
-    if (params.TAGAFTERBUILD) {
-      echo "User wants to generate a tag with release"
-    } else {
-      echo "Tag creation not needed due to user selection"
+ def buildStagesList = []
+ def parallelTest = [:]
+ parallelTest.put("Greeting", {
+    stage("Greet user and log choice in job") {
+      echo "User requestion release: ${params.USERNAME}"
+      echo "Selected branch to get source: ${params.SOURCEBRANCH}"
+      if (params.TAGAFTERBUILD) {
+        echo "User wants to generate a tag with release"
+      } else {
+        echo "Tag creation not needed due to user selection"
+      }
     }
-  }
+  })
+  buildStagesList.add(parallelTest)
   
-  stage("Checkout code") {
-    git branch: "${params.SOURCEBRANCH}" , url: "https://github.com/kikovalle/pipelinestests"
+  parallelTest = [:]
+  parallelTest.put("Clone repository code", {
+    stage("Checkout code") {
+      git branch: "${params.SOURCEBRANCH}" , url: "https://github.com/kikovalle/pipelinestests"
+    }
+  })
+  buildStagesList.add(parallelTest)
+  for(builds in buildStagesList) {
+    parallel(builds)
   }
   
   stage("List folder contents") {
     sh "ls -lorth"
   }
   
-  stage("Testing shared library") {
-    sayHello params.USERNAME
-    echo 'The value of foo is : ' + GlobalVars.defaultDeveloper 
-    if (GlobalVars.defaultDeveloper  == params.USERNAME) {
-      echo "User launching the job is the default developer"
-    } else {
-      echo "User is not default developer"
+  buildStagesList = []
+  parallelTest = [:]
+  parallelTest.put("Test shared library", {
+    stage("Testing shared library") {
+      sayHello params.USERNAME
+      echo 'The value of foo is : ' + GlobalVars.defaultDeveloper 
+      if (GlobalVars.defaultDeveloper  == params.USERNAME) {
+        echo "User launching the job is the default developer"
+      } else {
+        echo "User is not default developer"
+      }
     }
-  }
-
-  stage("Compile") {
-    withMaven( maven : 'maven' ) {
-      sh 'mvn -B -DskipTests clean package'
+  })
+  buildStagesList.add(parallelTest)
+  
+  parallelTest = [:]
+  parallelTest.put("Maven compile", {
+    stage("Compile") {
+      withMaven( maven : 'maven' ) {
+        sh 'mvn -B -DskipTests clean package'
+      }
     }
+  })
+  buildStagesList.add(parallelTest)
+  for(builds in buildStagesList) {
+    parallel(builds)
   }
+  
   
 
   
-  def buildStagesList = []
-  stage("Prepare parallel stage") {
-    def parallelTest = [:]
-    parallelTest.put("test1", {
-      stage("Test scripted parallel stage 1") {
-          println("Executing test1 Stage 1 Parallel that makes a sleep 10 and reutnrStatus true")
-          sh(script:'sleep 10', returnStatus:true)
-        }
-    })
-    buildStagesList.add(parallelTest)
-    
-    parallelTest = [:]
-    parallelTest.put("test2", {
-      stage("Test scripted parallel stage 2") {
-          println("Executing test2 Stage 2 Parallel  that makes a sleep 15 and reutnrStatus true")
-          sh(script:'sleep 15', returnStatus:true)
-        }
-    })
-    buildStagesList.add(parallelTest)
-    echo "List of parallel stages ready"
-  }
+  buildStagesList = []
+  parallelTest = [:]
+  parallelTest.put("test1", {
+    stage("Test scripted parallel stage 1") {
+        println("Executing test1 Stage 1 Parallel that makes a sleep 10 and reutnrStatus true")
+        sh(script:'sleep 10', returnStatus:true)
+      }
+  })
+  buildStagesList.add(parallelTest)
+
+  parallelTest = [:]
+  parallelTest.put("test2", {
+    stage("Test scripted parallel stage 2") {
+        println("Executing test2 Stage 2 Parallel  that makes a sleep 15 and reutnrStatus true")
+        sh(script:'sleep 15', returnStatus:true)
+      }
+  })
+  buildStagesList.add(parallelTest)
   
   for(builds in buildStagesList) {
     parallel(builds)
