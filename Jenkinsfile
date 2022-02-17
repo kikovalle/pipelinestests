@@ -1,6 +1,26 @@
 def code
 node("maven") {
-  stage("Checkout code") {
+  stage("Parameters test step") {
+    properties([
+      parameters([
+        choice(
+          choices: ["main", "test"],
+          name: "SOURCEBRANCH"
+        ),
+        booleanParam(
+          defaultValue: false,
+          description: "Generate a tag after successfull build",
+          name: "TAGAFTERBUILD"
+        ),
+        string(
+          defaultValue: "Jenkins Admin"
+          name: "USERNAME",
+          trim: true
+        )
+      ])
+    ])
+  }
+   stage("Checkout code") {
     checkout scm
   }
   stage("Preload") {
