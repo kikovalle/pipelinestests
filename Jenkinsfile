@@ -52,7 +52,7 @@ node("maven") {
     }
   }
   stage("Testing shared library") {
-    sayHello ${params.USERNAME}
+    sayHello params.USERNAME
     echo 'The value of foo is : ' + GlobalVars.defaultDeveloper 
     if (GlobalVars.defaultDeveloper  == params.USERNAME) {
       echo "User launching the job is the default developer"
