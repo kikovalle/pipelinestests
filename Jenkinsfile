@@ -52,19 +52,18 @@ node("maven") {
         }
       }, stage("List folder contents") {
         sh "ls -lorth"
-      }, stage("Load") {
-        node("maven") {
-          stage("load groovy script") {
-            code = load "script-example.groovy"
-          }
-          stage("Exec") {
-            code.example1()
-          }
-        }
       }
     )
   }
 
+  stage("load groovy script") {
+    code = load "script-example.groovy"
+  }
+  stage("Exec") {
+    code.example1()
+  }
+
+  
   stage("Compile") {
     withMaven( maven : 'maven' ) {
       sh 'mvn -B -DskipTests clean package'
