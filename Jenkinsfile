@@ -1,4 +1,9 @@
+@Library("kiko- jenkinstest-library") _
+
+import com.github.kikovalle.jenkins.GlobalVars
+
 def code
+
 node("maven") {
   stage("Parameters test step") {
     properties([
@@ -44,6 +49,15 @@ node("maven") {
   stage("Compile") {
     withMaven( maven : 'maven' ) {
       sh 'mvn -B -DskipTests clean package'
+    }
+  }
+  stage("Testing shared library") {
+    sayHello ${params.USERNAME}
+    echo 'The value of foo is : ' + GlobalVars.defaultDeveloper 
+    if (GlobalVars.defaultDeveloper  == params.USERNAME) {
+      echo "User launching the job is the default developer"
+    } else {
+      echo "User is not default developer"
     }
   }
   stage("End") {
