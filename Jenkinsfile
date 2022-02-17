@@ -13,7 +13,7 @@ node("maven") {
     code.example1()
   }
   stage("Compile") {
-    withMaven {
+    withMaven( maven : 'maven' ) {
       sh 'mvn -B -DskipTests clean package'
     }
   }
