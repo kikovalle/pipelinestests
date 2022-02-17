@@ -74,9 +74,8 @@ node("maven") {
   parallelTest = [:]
   parallelTest.put("Maven compile", {
     stage("Compile") {
-      withMaven( maven : 'maven' ) {
-        sh 'mvn -B -DskipTests clean package'
-      }
+      mvn this, 'clean package'
+      
     }
   })
   buildStagesList.add(parallelTest)
