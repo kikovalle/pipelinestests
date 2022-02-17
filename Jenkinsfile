@@ -83,9 +83,7 @@ node("maven") {
     })
     buildStagesList.add(parallelTest)
     
-     for (builds in buildStagesList) {
-       parallel(builds)
-     }
+    parallel(buildStagesList)
   }
   
   
