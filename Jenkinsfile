@@ -62,9 +62,8 @@ node("maven") {
   
 
   
-  
-  stage("Parallel stage") {
-    def buildStagesList = []
+  def buildStagesList = []
+  stage("Prepare parallel stage") {
     def parallelTest = [:]
     parallelTest.put("test1", {
       stage("Test scripted parallel stage 1") {
@@ -82,10 +81,13 @@ node("maven") {
         }
     })
     buildStagesList.add(parallelTest)
-    
-    parallel(buildStagesList)
   }
   
+  stage("Parallel stage") {
+    for(builds in buildStagesList) {
+      parallel(builds)
+    }
+  }
   
   stage("End") {
     echo "Everything seems to work fine!"
