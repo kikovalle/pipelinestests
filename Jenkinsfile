@@ -68,7 +68,7 @@ node("maven") {
     def parallelTest = [:]
     parallelTest.put("test1", {
       stage("Test scripted parallel stage 1") {
-          println("Executing ${name} that makes a sleep 10 and reutnrStatus true")
+          println("Executing test1 Stage 1 Parallel that makes a sleep 10 and reutnrStatus true")
           sh(script:'sleep 10', returnStatus:true)
         }
     })
@@ -77,7 +77,7 @@ node("maven") {
     parallelTest = [:]
     parallelTest.put("test2", {
       stage("Test scripted parallel stage 2") {
-          println("Executing ${name} that makes a sleep 15 and reutnrStatus true")
+          println("Executing test2 Stage 2 Parallel  that makes a sleep 15 and reutnrStatus true")
           sh(script:'sleep 15', returnStatus:true)
         }
     })
