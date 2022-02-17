@@ -35,8 +35,7 @@ node("maven") {
       }
     }
   stage ("Greets and checkout code") {
-    parallel {
-      
+    parallel 'greet': {
       stage("Testing shared library") {
         sayHello params.USERNAME
         echo 'The value of foo is : ' + GlobalVars.defaultDeveloper 
@@ -46,20 +45,22 @@ node("maven") {
           echo "User is not default developer"
         }
       }
-    }
-    stage("Checkout code") {
-      checkout scm
+    }, 'checkout': {
+      stage("Checkout code") {
+        checkout scm
+      }
     }
   }
   
   
   stage("List workspace code and load groovy script in repo") {
-    parallel {
-      stage("Preload") {
+    parallel 'list': {
+      stage("List folder contents") {
         sh "ls -lorth"
-      }
-      stage("Load") {
-        code = load "script-example.groovy"
+      }, 'loadlibrary': {
+        stage("Load") {
+          code = load "script-example.groovy"
+        }
       }
     }
   }
