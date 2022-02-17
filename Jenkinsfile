@@ -25,15 +25,21 @@ node("maven") {
       ])
     ])
   }
+  
   stage("Greet user and log choice in job") {
-      echo "User requestion release: ${params.USERNAME}"
-      echo "Selected branch to get source: ${params.SOURCEBRANCH}"
-      if (params.TAGAFTERBUILD) {
-        echo "User wants to generate a tag with release"
-      } else {
-        echo "Tag creation not needed due to user selection"
-      }
+    echo "User requestion release: ${params.USERNAME}"
+    echo "Selected branch to get source: ${params.SOURCEBRANCH}"
+    if (params.TAGAFTERBUILD) {
+      echo "User wants to generate a tag with release"
+    } else {
+      echo "Tag creation not needed due to user selection"
     }
+  }
+  
+  stage("Checkout code") {
+    git branch: "${params.SOURCEBRANCH}" , url: "https://github.com/kikovalle/pipelinestests"
+  }
+  
   stage ("Greets and checkout code") {
     parallel(
       stage("Testing shared library") {
@@ -44,16 +50,7 @@ node("maven") {
         } else {
           echo "User is not default developer"
         }
-      }, stage("Checkout code") {
-        git branch: params.SOURCEBRANCH , url: "https://github.com/kikovalle/pipelinestests"
-      }
-    )
-  }
-  
-  
-  stage("List workspace code and load groovy script in repo") {
-    parallel (
-      stage("List folder contents") {
+      }, stage("List folder contents") {
         sh "ls -lorth"
       }, stage("Load") {
           code = load "script-example.groovy"
