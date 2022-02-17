@@ -62,6 +62,7 @@ node("maven") {
     stage("Testing shared library") {
       sayHello params.USERNAME
       echo 'The value of foo is : ' + GlobalVars.defaultDeveloper 
+      echo "We are in build number ${currentBuild.getNumber()}"
       if (GlobalVars.defaultDeveloper  == params.USERNAME) {
         echo "User launching the job is the default developer"
       } else {
