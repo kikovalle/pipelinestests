@@ -13,7 +13,9 @@ node("maven") {
     code.example1()
   }
   stage("Compile") {
-    sh 'mvn -B -DskipTests clean package'
+    withMaven {
+      sh 'mvn -B -DskipTests clean package'
+    }
   }
   stage("End") {
     echo "Everything seems to work fine!"
