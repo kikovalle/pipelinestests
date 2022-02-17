@@ -53,7 +53,7 @@ node("maven") {
       }, stage("List folder contents") {
         sh "ls -lorth"
       }, stage("Load") {
-        stages {
+        steps {
           stage("load groovy script") {
             code = load "script-example.groovy"
           }
