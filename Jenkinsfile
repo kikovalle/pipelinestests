@@ -40,25 +40,20 @@ node("maven") {
     git branch: "${params.SOURCEBRANCH}" , url: "https://github.com/kikovalle/pipelinestests"
   }
   
-  stage ("Greets and checkout code") {
-    parallel(
-      stage("Testing shared library") {
-        sayHello params.USERNAME
-        echo 'The value of foo is : ' + GlobalVars.defaultDeveloper 
-        if (GlobalVars.defaultDeveloper  == params.USERNAME) {
-          echo "User launching the job is the default developer"
-        } else {
-          echo "User is not default developer"
-        }
-      }, stage("List folder contents") {
-        sh "ls -lorth"
-      }
-    )
+  stage("List folder contents") {
+    sh "ls -lorth"
+  }
+  
+  stage("Testing shared library") {
+    sayHello params.USERNAME
+    echo 'The value of foo is : ' + GlobalVars.defaultDeveloper 
+    if (GlobalVars.defaultDeveloper  == params.USERNAME) {
+      echo "User launching the job is the default developer"
+    } else {
+      echo "User is not default developer"
+    }
   }
 
-
-
-  
   stage("Compile") {
     withMaven( maven : 'maven' ) {
       sh 'mvn -B -DskipTests clean package'
