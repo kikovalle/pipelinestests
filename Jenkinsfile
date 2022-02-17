@@ -28,7 +28,6 @@ node("maven") {
     } else {
       echo "Tag creation not needed due to user selection"
     }
-    echo "Selected
   }
   stage("Checkout code") {
     checkout scm
