@@ -84,12 +84,10 @@ node("maven") {
     echo "List of parallel stages ready"
   }
   
-  stage("Parallel stage") {
-    for(builds in buildStagesList) {
-      parallel(builds)
-    }
+  for(builds in buildStagesList) {
+    parallel(builds)
   }
-  
+    
   stage("End") {
     echo "Everything seems to work fine!"
   }
