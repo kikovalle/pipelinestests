@@ -56,12 +56,7 @@ node("maven") {
     )
   }
 
-  stage("load groovy script") {
-    code = load "script-example.groovy"
-  }
-  stage("Exec") {
-    code.example1()
-  }
+
 
   
   stage("Compile") {
