@@ -74,7 +74,7 @@ node("maven") {
   parallelTest = [:]
   parallelTest.put("Maven compile", {
     stage("Compile") {
-      mvn this, 'clean package'
+      GlobalVars.mvn this, 'clean package'
       
     }
   })
