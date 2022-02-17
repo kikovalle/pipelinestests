@@ -35,7 +35,7 @@ node("maven") {
       }
     }
   stage ("Greets and checkout code") {
-    parallel 'greet': {
+    parallel(
       stage("Testing shared library") {
         sayHello params.USERNAME
         echo 'The value of foo is : ' + GlobalVars.defaultDeveloper 
@@ -44,12 +44,10 @@ node("maven") {
         } else {
           echo "User is not default developer"
         }
-      }
-    }, 'checkout': {
-      stage("Checkout code") {
+      }, stage("Checkout code") {
         checkout scm
       }
-    }
+    )
   }
   
   
