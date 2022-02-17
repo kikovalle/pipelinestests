@@ -52,15 +52,13 @@ node("maven") {
   
   
   stage("List workspace code and load groovy script in repo") {
-    parallel 'list': {
+    parallel (
       stage("List folder contents") {
         sh "ls -lorth"
-      }, 'loadlibrary': {
-        stage("Load") {
+      }, stage("Load") {
           code = load "script-example.groovy"
-        }
       }
-    }
+    )
   }
   stage("Exec") {
     code.example1()
