@@ -13,7 +13,7 @@ node("maven") {
           name: "TAGAFTERBUILD"
         ),
         string(
-          defaultValue: "Jenkins Admin"
+          defaultValue: "Jenkins Admin",
           name: "USERNAME",
           trim: true
         )
