@@ -45,7 +45,7 @@ node("maven") {
           echo "User is not default developer"
         }
       }, stage("Checkout code") {
-        checkout scm
+        git branch: params.SOURCEBRANCH , url: "https://github.com/kikovalle/pipelinestests"
       }
     )
   }
