@@ -71,7 +71,7 @@ node("maven") {
   )
   stage("Preparing helm deploy example") {
     echo "Proceed to download hello world example chart to deploy from any github example project as we are trying to test pipelines"
-    git url: "https://github.com/helm/examples"
+    git  branch: "${params.SOURCEBRANCH}" , url: "https://github.com/helm/examples"
   }
   
   stage("Deploy with helm") {
