@@ -79,7 +79,7 @@ node("maven") {
         sh "ls -lort"
         dir("helm/chart/") {
           sh "ls -lort"
-          HelmDeployer.deploy this, 'nodeserver',  "default"
+          HelmDeployer.deploy this, 'nodeserver',  "${params.SOURCEBRANCH}"
         }
       }
     }
