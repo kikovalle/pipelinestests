@@ -100,7 +100,7 @@ node("maven") {
       }
       stage("Deploy with helm") {
         sh "ls -lort"
-        dir("helm/${params.CHARTFOLDER}/") {
+        dir("helm/") {
           sh "ls -lort"
           HelmDeployer.deploy this, "${params.RELEASENAME}", "${params.CHARTFOLDER}",  "${params.SOURCEBRANCH}"
         }
