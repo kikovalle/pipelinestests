@@ -76,8 +76,8 @@ node("maven") {
         }
       }
       stage("Deploy with helm") {
-        dir("examples/charts/helm/chart/nodeserver/") {
-          HelmDeployer.deploy this, 'hello-world',  "${params.SOURCEBRANCH}"
+        dir("examples/charts/helm/chart/") {
+          HelmDeployer.deploy this, 'nodeserver',  "${params.SOURCEBRANCH}"
         }
       }
     }
