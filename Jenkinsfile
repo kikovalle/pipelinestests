@@ -22,6 +22,29 @@ node("maven") {
           defaultValue: "Jenkins Admin",
           name: "USERNAME",
           trim: true
+        ),
+        string(
+          defaultValue: "https://github.com/stakater-charts/helloworld",
+          name: "HELMGITURL",
+          description: "Repository URL to find helm chart to deploy",
+          trim: true
+        ),
+        string(
+          defaultValue: "https://github.com/stakater-charts/helloworld",
+          name: "RELEASENAME",
+          description: "Name for the released chart with helm",
+          trim: true
+        ),
+        string(
+          defaultValue: "./",
+          description: "Chart folder where helm should find chart after checkout",
+          name: "CHARTFOLDER",
+          trim: true
+        ),
+        choice(
+          description: "Branch from the helm git repository to checkout",
+          choices: ["main", "master", "test", "develop"],
+          name: "HELMREPOBRANCH"
         )
       ])
     ])
@@ -72,14 +95,14 @@ node("maven") {
       stage("Preparing helm deploy example") {
         dir("helm") {
           echo "Proceed to download hello world example chart to deploy from any github example project as we are trying to test pipelines"
-          git  branch: "${params.SOURCEBRANCH}" , url: "https://github.com/nodeshift/helm"
+          git  branch: "${params.HELMREPOBRANCH}" , url: "${params.HELMGITURL}"
         }
       }
       stage("Deploy with helm") {
         sh "ls -lort"
-        dir("helm/chart/") {
+        dir("helm/${params.CHARTFOLDER}/") {
           sh "ls -lort"
-          HelmDeployer.deploy this, 'nodeserver',  "${params.SOURCEBRANCH}"
+          HelmDeployer.deploy this, "${params.RELEASENAME}", "${params.CHARTFOLDER}",  "${params.SOURCEBRANCH}"
         }
       }
     }
