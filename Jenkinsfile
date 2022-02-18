@@ -70,8 +70,10 @@ node("maven") {
     },
     DeployWithHelm: {
       stage("Preparing helm deploy example") {
-        echo "Proceed to download hello world example chart to deploy from any github example project as we are trying to test pipelines"
-        git  branch: "${params.SOURCEBRANCH}" , url: "https://github.com/nodeshift/helm"
+        dir("helm") {
+          echo "Proceed to download hello world example chart to deploy from any github example project as we are trying to test pipelines"
+          git  branch: "${params.SOURCEBRANCH}" , url: "https://github.com/nodeshift/helm"
+        }
       }
       stage("Deploy with helm") {
         sh "ls -lort"
