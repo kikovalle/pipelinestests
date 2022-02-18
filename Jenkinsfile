@@ -76,7 +76,9 @@ node("maven") {
         }
       }
       stage("Deploy with helm") {
+        sh "ls -lort"
         dir("examples/charts/helm/chart/") {
+          sh "ls -lort"
           HelmDeployer.deploy this, 'nodeserver',  "default"
         }
       }
