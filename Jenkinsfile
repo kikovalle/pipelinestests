@@ -1,6 +1,7 @@
 @Library("kiko- jenkinstest-library") _
 
 import com.github.kikovalle.jenkins.GlobalVars
+import com.github.kikovalle.jenkins.HelmDeployer
 
 def code
 
@@ -68,7 +69,17 @@ node("maven") {
       sh(script:'sleep 15', returnStatus:true)
     }
   )
-    
+  stage("Preparing helm deploy example") {
+    echo "Proceed to download hello world example chart to deploy from any github example project as we are trying to test pipelines"
+    git url: "https://github.com/helm/examples"
+  }
+  
+  stage("Deploy with helm") {
+    dir("examples/charts/") {
+      HelmDeployer.deploy this, 'hello-world', ${params.SOURCEBRANCH}
+    }
+  }
+  
   stage("End") {
     echo "Everything seems to work fine!"
   }
