@@ -63,6 +63,9 @@ node("maven") {
       },
       CheckoutCode: {
         git branch: "${params.SOURCEBRANCH}" , url: "https://github.com/kikovalle/pipelinestests"
+      },
+      TestIfDockerCommandExists: {
+        sh 'docker --version'
       }
     )
 
