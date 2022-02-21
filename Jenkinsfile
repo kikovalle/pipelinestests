@@ -1,4 +1,4 @@
-@Library("kiko- jenkinstest-library") _
+@Library("kiko-jenkinstest-library") _
 
 import com.github.kikovalle.jenkins.GlobalVars
 import com.github.kikovalle.jenkins.HelmDeployer
@@ -64,9 +64,6 @@ node("maven") {
       CheckoutCode: {
         git branch: "${params.SOURCEBRANCH}" , url: "https://github.com/kikovalle/pipelinestests"
       },
-      TestIfDockerCommandExists: {
-        sh 'docker --version'
-      }
     )
 
     stage("List folder contents") {
