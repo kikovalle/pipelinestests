@@ -1,12 +1,15 @@
 @Library("kiko-jenkinstest-library") _
 
-import com.github.kikovalle.jenkins.GlobalVars
-import com.github.kikovalle.jenkins.RestCatAPICall
-
 node("maven") {
   timestamps {
     stage("Description") {
       echo "In this pipeline we are testing a free Cat Rest API Call and processing the result to show the message"
+    }
+    stage("Call Rest API") {
+      callCatsFreeRestAPI name: "testcall"
+    }
+    stage("End") {
+      echo "Pipeline finished"
     }
   }
 }
