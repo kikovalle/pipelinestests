@@ -6,7 +6,9 @@ node("maven") {
       echo "In this pipeline we are testing a free Cat Rest API Call and processing the result to show the message"
     }
     stage("Call Rest API") {
-      callCatsFreeRestAPI "testcall"
+      catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+          callCatsFreeRestAPI "testcall"
+      }
     }
     stage("End") {
       echo "Pipeline finished"
