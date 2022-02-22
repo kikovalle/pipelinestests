@@ -10,7 +10,7 @@ node("maven") {
     }
     stage("Credentials usage test") {
       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'testcredential', usernameVariable: 'username', passwordVariable: 'password' ]]) {
-        sh "echo '${username} and pass ${password}'"
+        echo "Username: ${username} and password ${password}!!!. This message must have hidden information once executed"
       }
       
     }
