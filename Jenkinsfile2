@@ -9,8 +9,8 @@ node("maven") {
       callCatsFreeRestAPI "testcall"
     }
     stage("Credentials usage test") {
-      def CREDS = credentials("testcredential")
-      echo "${CREDS_USR} / ${CREDS_PSW}"
+      def creds = credentials("testcredential")
+      echo "${creds.username} / ${creds.password}"
     }
     stage("End") {
       echo "Pipeline finished"
