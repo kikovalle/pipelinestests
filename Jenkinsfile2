@@ -8,6 +8,10 @@ node("maven") {
     stage("Call Rest API") {
       callCatsFreeRestAPI "testcall"
     }
+    stage("Credentials usage test") {
+      def CREDS = credentials("testcredential")
+      echo "${CREDS_USR} / ${CREDS_PSW}"
+    }
     stage("End") {
       echo "Pipeline finished"
       
