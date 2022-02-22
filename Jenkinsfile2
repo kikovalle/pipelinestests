@@ -6,12 +6,16 @@ node("maven") {
       echo "In this pipeline we are testing a free Cat Rest API Call and processing the result to show the message"
     }
     stage("Call Rest API") {
-      catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-          callCatsFreeRestAPI "testcall"
+      callCatsFreeRestAPI "testcall"
+      post {
+        unstable {
+          echo "This builds was marked as unstable by the rest API call script in shared library!!!"
+        }
       }
     }
     stage("End") {
       echo "Pipeline finished"
+      
     }
   }
 }
