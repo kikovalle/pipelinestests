@@ -10,7 +10,7 @@ node("maven") {
     }
     stage("Credentials usage test") {
       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'testcredential', usernameVariable: 'username', passwordVariable: 'password' ]]) {
-        echo "${username} "
+        sh "echo '${username} and pass ${password}'"
       }
       
     }
