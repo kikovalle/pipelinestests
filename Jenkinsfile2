@@ -7,10 +7,8 @@ node("maven") {
     }
     stage("Call Rest API") {
       callCatsFreeRestAPI "testcall"
-      post {
-        unstable {
-          echo "This builds was marked as unstable by the rest API call script in shared library!!!"
-        }
+      unstable {
+        echo "This builds was marked as unstable by the rest API call script in shared library!!!"
       }
     }
     stage("End") {
