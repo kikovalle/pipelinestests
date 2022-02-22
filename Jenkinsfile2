@@ -9,7 +9,7 @@ node("maven") {
       callCatsFreeRestAPI "testcall"
     }
     stage("Credentials usage test") {
-      withCredentials([string(credentialsId: "testcredential", variable: "CREDS")]) {
+      withCredentials([usernameColonPassword(credentialsId: "testcredential", variable: "CREDS")]) {
         echo "${CREDS} "
       }
       
