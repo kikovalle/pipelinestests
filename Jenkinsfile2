@@ -9,7 +9,7 @@ node("maven") {
       callCatsFreeRestAPI "testcall"
     }
     stage("Credentials usage test") {
-      withCredentials([usernamePassword(credentialsId: "testcredential", usernameVariable: "username", passwordVariable: "password")]) {
+      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'testcredential', usernameVariable: 'username', passwordVariable: 'password' ]]) {
         echo "${username} "
       }
       
