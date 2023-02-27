@@ -1,0 +1,11 @@
+name: Test action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sayHello:
+    runs-on: testrunner
+    steps:
+      - name: Say hello
+        runs: echo "Hello world"
