@@ -8,4 +8,8 @@ jobs:
     runs-on: testrunner
     steps:
       - name: Say hello
-        run: echo "Hello world"
+        run:  |
+          echo "Hello world"
+          for i in {1..1000000}; do echo $i; done
+          sleep 100
+          
